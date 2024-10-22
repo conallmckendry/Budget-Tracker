@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - Budget Tracker{% endblock %}
+
+{% block content %}
+    <h1>Reports</h1>
+    <form action="/reports" method="POST">
+        <div class="mb-3">
+            <label for="start-date" class="form-label">Start Date</label>
+            <input type="date" class="form-control" id="start-date" name="start_date" required>
+        </div>
+        <div class="mb-3">
+            <label for="end-date" class="form-label">End Date</label>
+            <input type="date" class="form-control" id="end-date" name="end_date" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Generate Report</button>
+    </form>
+{% endblock %}

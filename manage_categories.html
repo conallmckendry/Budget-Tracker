@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Categories - Budget Tracker{% endblock %}
+
+{% block content %}
+    <h1>Manage Categories</h1>
+    <form action="/manage_categories" method="POST">
+        <div class="mb-3">
+            <label for="category" class="form-label">New Category</label>
+            <input type="text" class="form-control" id="category" name="category" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Category</button>
+    </form>
+    <hr>
+    <h2>Current Categories</h2>
+    <ul>
+        <li>Rent</li>
+        <li>Groceries</li>
+        <li>Entertainment</li>
+    </ul>
+{% endblock %}
