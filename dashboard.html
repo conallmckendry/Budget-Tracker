@@ -3,28 +3,40 @@
 {% block title %}Dashboard - Budget Tracker{% endblock %}
 
 {% block content %}
-    <h1>Dashboard</h1>
-    <p>Your current financial summary is shown below.</p>
-    
-    <div class="row">
-        <div class="col-md-4">
-            <h3>Total Income</h3>
-            <p>£25,000</p>
+<div class="dashboard">
+    <h2>Your Financial Summary</h2>
+
+    <!-- Total Income, Total Expenses, Remaining Budget -->
+    <div class="financial-summary mb-4">
+        <div class="summary-item">
+            <h4>Total Income</h4>
+            <p>£{{ total_income }}</p>
         </div>
-        <div class="col-md-4">
-            <h3>Total Expenses</h3>
-            <p>£13,000</p>
+        <div class="summary-item">
+            <h4>Total Expenses</h4>
+            <p>£{{ total_expenses }}</p>
         </div>
-        <div class="col-md-4">
-            <h3>Remaining Budget</h3>
-            <p>$£12,000</p>
+        <div class="summary-item">
+            <h4>Remaining Budget</h4>
+            <p>£{{ remaining_budget }}</p>
         </div>
     </div>
-    <hr>
-    <h2>Recent Transactions</h2>
-    <ul>
-        <li>Income: Salary - £5,000</li>
-        <li>Expense: Rent - £1,200</li>
-        <li>Expense: Groceries - £200</li>
+
+    <h3>Recent Transactions</h3>
+    <ul class="recent-transactions list-group">
+        {% for transaction in transactions %}
+            <li class="list-group-item">
+                <strong>{{ transaction.description }}</strong> - 
+                {% if transaction.amount > 0 %}
+                    <span class="text-success">Income: £{{ transaction.amount }}</span>
+                {% else %}
+                    <span class="text-danger">Expense: £{{ transaction.amount }}</span>
+                {% endif %}
+                <span class="float-end">{{ transaction.date.strftime('%Y-%m-%d') }}</span>
+            </li>
+        {% else %}
+            <li class="list-group-item">No recent transactions found.</li>
+        {% endfor %}
     </ul>
+</div>
 {% endblock %}

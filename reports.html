@@ -1,18 +1,59 @@
-{% extends "base.html" %}
-
-{% block title %}Reports - Budget Tracker{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <h1>Reports</h1>
-    <form action="/reports" method="POST">
-        <div class="mb-3">
-            <label for="start-date" class="form-label">Start Date</label>
-            <input type="date" class="form-control" id="start-date" name="start_date" required>
-        </div>
-        <div class="mb-3">
-            <label for="end-date" class="form-label">End Date</label>
-            <input type="date" class="form-control" id="end-date" name="end_date" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Generate Report</button>
-    </form>
+  <h2>Generate Transaction Report</h2>
+
+  <!-- Form for filter options -->
+  <form method="GET" action="{{ url_for('main.reports') }}">
+      <div class="form-group">
+          <label for="start_date">Start Date:</label>
+          <input type="date" name="start_date" id="start_date" value="{{ request.args.get('start_date') }}">
+      </div>
+
+      <div class="form-group">
+          <label for="end_date">End Date:</label>
+          <input type="date" name="end_date" id="end_date" value="{{ request.args.get('end_date') }}">
+      </div>
+
+      <div class="form-group">
+          <label for="category_id">Category:</label>
+          <select name="category_id" id="category_id">
+              <option value="">All Categories</option>
+              {% for category in categories %}
+                  <option value="{{ category.id }}" {% if category.id == request.args.get('category_id')|int %} selected {% endif %}>{{ category.name }}</option>
+              {% endfor %}
+          </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Generate Report</button>
+  </form>
+
+  <hr>
+
+  <!-- Transaction report results -->
+  {% if transactions %}
+      <h3>Transaction Report</h3>
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                  <th>Category</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for transaction in transactions %}
+                  <tr>
+                      <td>{{ transaction.description }}</td>
+                      <td>{{ transaction.amount }}</td>
+                      <td>{{ transaction.date }}</td>
+                      <td>{{ transaction.category.name }}</td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+  {% else %}
+      <p>No transactions found matching your criteria.</p>
+  {% endif %}
 {% endblock %}

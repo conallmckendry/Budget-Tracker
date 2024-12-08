@@ -1,29 +1,36 @@
-{% extends "base.html" %}
-
-{% block title %}Add Transaction - Budget Tracker{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <h1>Add Transaction</h1>
-    <form action="/add_transaction" method="POST">
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <input type="text" class="form-control" id="description" name="description" required>
-        </div>
-        <div class="mb-3">
-            <label for="amount" class="form-label">Amount</label>
-            <input type="number" class="form-control" id="amount" name="amount" required>
-        </div>
-        <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <input type="text" class="form-control" id="category" name="category" required>
-        </div>
-        <div class="mb-3">
-            <label for="type" class="form-label">Type</label>
-            <select class="form-control" id="type" name="type">
-                <option value="income">Income</option>
-                <option value="expense">Expense</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Add Transaction</button>
-    </form>
+  <h2>Add Transaction</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div>
+      <label for="description">Description</label>
+      {{ form.description(size=32) }}
+    </div>
+    
+    <div>
+      <label for="amount">Amount</label>
+      {{ form.amount(size=32) }}
+    </div>
+    
+    <div>
+      <label for="date">Date</label>
+      {{ form.date() }}
+    </div>
+    
+    <div>
+      <label for="category_id">Category</label>
+      {{ form.category_id() }}
+      {% if form.category_id.data is none %}
+        <div class="alert alert-warning">No categories available. Please create a category first.</div>
+      {% endif %}
+    </div>
+
+    <div>
+      {{ form.submit() }}
+    </div>
+  </form>
 {% endblock %}
+

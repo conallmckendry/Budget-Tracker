@@ -1,0 +1,11 @@
+<h2>Categories</h2>
+<ul>
+    {% for category in categories %}
+        <li>{{ category.name }} - <a href="{{ url_for('main.edit_category', id=category.id) }}">Edit</a> | 
+            <form action="{{ url_for('main.delete_category', id=category.id) }}" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('main.create_category') }}">Create New Category</a>

@@ -1,19 +1,42 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Optional: Add some basic styling or link to a CSS file -->
+    <link rel="stylesheet" href="styles.css"> <!-- If you have a CSS file -->
+</head>
+<body>
+    <h2>Login</h2>
 
-{% block title %}Login - Budget Tracker{% endblock %}
+    <!-- Check if there are any flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 
-{% block content %}
-    <h1>Login</h1>
-    <form action="/login" method="post">
-        <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" required>
+    <!-- Login Form -->
+    <form method="POST" action="{{ url_for('main.login') }}">
+        <div>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="Enter your email" required>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" required>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Enter your password" required>
         </div>
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit">Login</button>
     </form>
-    <p>Don't have an account? <a href="/register">Register here</a></p>
-{% endblock %}
+
+    <p>Don't have an account? <a href="{{ url_for('main.register') }}">Register here</a></p>
+
+ 
+</body>
+</html>
+
